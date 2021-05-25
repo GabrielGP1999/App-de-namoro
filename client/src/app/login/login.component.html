@@ -1,0 +1,51 @@
+<div class="card container mt-5 col-md-4">
+    <h1 class="mt-2 text-center text-primary">
+        <svg xmlns="http://www.w3.org/2000/svg" width="42" height="42" fill="currentColor" class="bi bi-person mx-auto mb-1" viewBox="0 0 16 16">
+            <path d="M7 14s-1 0-1-1 1-4 5-4 5 3 5 4-1 1-1 1H7zm4-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
+            <path fill-rule="evenodd" d="M5.216 14A2.238 2.238 0 0 1 5 13c0-1.355.68-2.75 1.936-3.72A6.325 6.325 0 0 0 5 9c-4 0-5 3-5 4s1 1 1 1h4.216z"/>
+            <path d="M4.5 8a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z"/>
+        </svg>
+      Login
+    </h1>
+        <form class="ml-4 mt-2" *ngIf="(accountService.currentUser$ | async) === null" (ngSubmit)="login()" autoComplete="off">
+            <h5 for="InputEmail" class="form-label mt-2">Endereço de E-mail</h5>
+            <div class="mb-3">
+                <input 
+            name="username"
+            [(ngModel)]="model.username"
+            type="text" 
+            class="form-control col-md-11" 
+            id="exampleInputEmail1" 
+            placeholder="Usuário" 
+            aria-label="Search">
+            <div id="emailHelp" class="form-text">Nunca revele seus dados a ninguem.</div>
+        </div>
+        </form>
+            <div class="mb-3">
+                
+        <form class="ml-4 mt-2" *ngIf="(accountService.currentUser$ | async) === null" (ngSubmit)="login()" autoComplete="off">
+            <h5 for="exampleInputPassword1" class="form-label">Senha</h5>
+                <input 
+            name="password"
+            [(ngModel)]="model.password"
+            type="password" 
+            class="form-control col-md-11" 
+            id="exampleInputEmail1"
+            placeholder="Senha" 
+            aria-label="Search">
+            <div class="col-12 m-2">
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" value="" id="invalidCheck" required>
+                  <label class="form-check-label" for="invalidCheck">
+                    Não sou um robo
+                  </label>
+                  <div class="invalid-feedback">
+                    Verifique sua identidade.
+                  </div>
+                </div>
+              </div>
+            <button type="submit" class="btn btn-primary my-2 mr-sm-0 col-md-3">Login</button>
+          </form>
+        </div>
+</div>
+
