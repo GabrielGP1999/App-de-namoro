@@ -17,3 +17,11 @@
 .active {
     color: white;
 }
+
+img {
+    max-height: 50px;
+    border-radius: 25%;
+    border: 2px solid #fff;
+    display: inline;
+    
+}

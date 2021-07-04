@@ -1,0 +1,96 @@
+<div class="row">
+    <div class="col-2" *ngFor="let photo of member.photos">
+        <img src="{{photo.url}}" alt="{{photo.url}}" class="img-thumbnail p-1">
+        <div class="text-center" style="display: flex;">
+            <button class="btn btn-sm" [disabled]='photo.isMain' (click)="setMainPhoto(photo)" [ngClass]='photo.isMain ? "btn-success active" : "btn-outline-success"' >Principal</button>
+            <button class="btn btn-sm btn-danger" [disabled]="photo.isMain" (click)="deletePhoto(photo.id)">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash"
+                    viewBox="0 0 16 16">
+                    <path
+                        d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z" />
+                    <path fill-rule="evenodd"
+                        d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z" />
+                </svg>
+            </button>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-5">
+
+    <div class="col-md-3">
+        <h3 style="width: max-content;">Selecione suas fotos</h3>
+
+        <div ng2FileDrop [ngClass]="{'nv-file-over': hasBaseDropZoneOver}" (fileOver)="fileOverBase($event)"
+            [uploader]="uploader" class="card bg-faded p-3 text-center mb-3 mt-4 my-drop-zone">
+            <svg xmlns="http://www.w3.org/2000/svg" width="108" height="90" fill="currentColor"
+                class="bi bi-cloud-arrow-up-fill ml-4" viewBox="0 0 16 16">
+                <path
+                    d="M8 2a5.53 5.53 0 0 0-3.594 1.342c-.766.66-1.321 1.52-1.464 2.383C1.266 6.095 0 7.555 0 9.318 0 11.366 1.708 13 3.781 13h8.906C14.502 13 16 11.57 16 9.773c0-1.636-1.242-2.969-2.834-3.194C12.923 3.999 10.69 2 8 2zm2.354 5.146a.5.5 0 0 1-.708.708L8.5 6.707V10.5a.5.5 0 0 1-1 0V6.707L6.354 7.854a.5.5 0 1 1-.708-.708l2-2a.5.5 0 0 1 .708 0l2 2z" />
+            </svg>
+            Coloque as fotos aqui:
+        </div>
+
+        Multiplas
+        <input type="file" ng2FileSelect [uploader]="uploader" multiple /><br />
+        Uma
+        <input type="file" ng2FileSelect [uploader]="uploader" />
+    </div>
+
+    <div class="col-md-9 mt-5" style="margin-bottom: 40px" *ngIf="uploader?.queue?.length">
+
+        <p>Fotos enviadas: {{ uploader?.queue?.length }}</p>
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th width="50%">Nome</th>
+                    <th>Tamanho</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of uploader.queue">
+                    <td><strong>{{ item?.file?.name }}</strong></td>
+                    <td *ngIf="uploader.options.isHTML5" nowrap>{{ item?.file?.size/1024/1024 | number:'.2' }} MB</td>
+                </tr>
+            </tbody>
+        </table>
+        <div>
+            <div>
+                Progresso:
+                <div class="progress">
+                    <div class="progress-bar" role="progressbar" [ngStyle]="{ 'width': uploader.progress + '%' }"></div>
+                </div>
+            </div>
+            <button type="button" class="btn btn-success btn-s" (click)="uploader.uploadAll()"
+                [disabled]="!uploader.getNotUploadedItems().length">
+                <span>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor"
+                        class="bi bi-cloud-upload-fill" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd"
+                            d="M8 0a5.53 5.53 0 0 0-3.594 1.342c-.766.66-1.321 1.52-1.464 2.383C1.266 4.095 0 5.555 0 7.318 0 9.366 1.708 11 3.781 11H7.5V5.707L5.354 7.854a.5.5 0 1 1-.708-.708l3-3a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 5.707V11h4.188C14.502 11 16 9.57 16 7.773c0-1.636-1.242-2.969-2.834-3.194C12.923 1.999 10.69 0 8 0zm-.5 14.5V11h1v3.5a.5.5 0 0 1-1 0z" />
+                    </svg>
+                </span>
+                Confirmar tudo
+            </button>
+            <button type="button" class="btn btn-warning btn-s" (click)="uploader.cancelAll()"
+                [disabled]="!uploader.isUploading">
+                <span><svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor"
+                        class="bi bi-x-circle-fill" viewBox="0 0 16 16">
+                        <path
+                            d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 7.293 5.354 4.646z" />
+                    </svg></span> Cancelar tudo
+            </button>
+            <button type="button" class="btn btn-danger btn-s" (click)="uploader.clearQueue()"
+                [disabled]="!uploader.queue.length">
+                <span><svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor"
+                        class="bi bi-trash-fill" viewBox="0 0 16 16">
+                        <path
+                            d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z" />
+                    </svg></span> Remover tudo
+            </button>
+        </div>
+
+    </div>
+
+</div>

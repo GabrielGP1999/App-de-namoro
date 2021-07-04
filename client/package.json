@@ -25,6 +25,7 @@
     "bootswatch": "^5.0.1",
     "font-awesome": "^4.7.0",
     "jquery": "^1.12.4",
+    "ng2-file-upload": "^1.4.0",
     "ngx-bootstrap": "^6.2.0",
     "ngx-spinner": "^11.0.1",
     "ngx-toastr": "^14.0.0",
